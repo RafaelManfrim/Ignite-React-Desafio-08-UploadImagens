@@ -30,19 +30,30 @@ export default function Home(): JSX.Element {
 
   const formattedData = useMemo(() => {
     // TODO FORMAT AND FLAT DATA ARRAY
+    const dados = data.pages.data.map(img => ({
+      title: img.title,
+      description: img.description,
+      url: img.url,
+      ts: img.ts,
+      id: img.id,
+    }));
+
+    console.log(dados);
   }, [data]);
-
-  // TODO RENDER LOADING SCREEN
-
-  // TODO RENDER ERROR SCREEN
 
   return (
     <>
+      {isLoading && <Loading />}
+      {isError && <Error />}
       <Header />
 
       <Box maxW={1120} px={20} mx="auto" my={20}>
         <CardList cards={formattedData} />
-        {/* TODO RENDER LOAD MORE BUTTON IF DATA HAS NEXT PAGE */}
+        {hasNextPage && (
+          <Button>
+            {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
+          </Button>
+        )}
       </Box>
     </>
   );
